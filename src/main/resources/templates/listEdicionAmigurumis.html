@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+<title>Lista de Amigurumis</title>
+</head>
+<body>
+	<h1>Lista de Amigurumis</h1>
+	<div th:if="${message}">
+		<p th:text="${message}" style="color: green;"></p>
+	</div>
+	<table>
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nombre</th>
+				<th>Acciones borrado</th>
+				<th>Acciones editar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="amigurumi : ${amigurumiList}">
+				<td th:text="${amigurumi.id}"></td>
+				<td th:text="${amigurumi.name}"></td>
+				<td><a th:href="@{/api/amigurumi/delete/{id}(id=${amigurumi.id})}"
+					onclick="return confirm('Seguro de que deseas eliminar este amigurumi?');">
+						Borrar </a></td>
+				<td><a th:href="@{/api/amigurumi/modifica/{id}(id=${amigurumi.id})}">Editar</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

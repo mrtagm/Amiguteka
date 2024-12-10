@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Crear Patrón</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amiguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+        <div class="container">
+            <!-- Navegación de Secciones -->
+            <nav class="nav-bar">
+                <div class="one-third column">
+                    <button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+                </div>
+                <div class="one-third column">
+                    <button onclick="window.location.href='/api/favorito/list'">Favoritos</button>
+                </div>
+                <div class="one-third column">
+                    <button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+                </div>
+            </nav>
+            <h1>Crear Patrón</h1>
+            <form th:action="@{/api/amigurumi/crear}" th:object="${amigurumi}" method="post" enctype="multipart/form-data">
+
+                <div class="main-content">
+                    <div class="left-column">
+                        <div class="amigurumi-img">Foto amigurumi</div>
+
+                        <input type="file" id="image" name="image" accept="image/*" /><br />
+                    </div>
+                    <div class="right-column">
+                        <label for="name"><strong>Nombre:</strong></label>
+                        <input type="text" id="name" th:field="*{name}" class="input-full" required /><br />
+
+                        <label for="enlace"><strong>Enlace:</strong></label>
+                        <input type="text" id="enlace" th:field="*{enlace}" class="input-full"/><br />
+
+                        <div class="materials">
+                            <h5>Materiales</h5>
+                            <textarea id="materiales" th:field="*{materiales}" required rows="10" class="textarea-field"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="description">
+                    <h5>Descripción</h5>
+                    <textarea id="descripcion" th:field="*{descripcion}" required rows="18" class="textarea-field"></textarea>
+                </div>
+
+                <button type="submit" class="button-primary"><i class="fa fa-floppy-o fa-lg"></i> </button>
+            </form>
+        </div>
+        <footer>
+            <div class="row">
+                <div class="one-third column">
+                    <p>&copy; 2024 Amiguteka</p>
+                </div>
+                <div class="one-third column">
+                    <a href="/aviso-legal">AVISO LEGAL</a>
+                </div>
+                <div class="one-third column">
+                    <a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+                    <a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

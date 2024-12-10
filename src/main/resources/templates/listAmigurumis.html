@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Amiguteka - Galería</title>
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amiguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+
+        <h1 class="gallery-title">AMIGUTEKA</h1>
+
+        <div class="container">
+            <!-- Usamos Thymeleaf para generar dinámicamente las tarjetas de patrones -->
+            <div th:each="patron, iterStat : ${amigurumiList}">
+                <div class="row" th:if="${iterStat.index % 3 == 0}"></div>
+                <div class="four columns">
+                    <a th:href="@{'/api/amigurumi/ver/' + ${patron.id}}" class="card-link">
+                        <div class="card">
+                            <img th:src="'data:image/png;base64,' + ${patron.imagenPortada64}" alt="Imagen">
+                            <div class="card-info">
+                                <h2 th:text="${patron.name}" style="display: inline-block; margin-right: 10px;">Nombre del patrón</h2>
+                                <p th:text="${patron.autorNombre}" style="display: inline-block;">Autor</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div th:if="${(iterStat.index + 1) % 3 == 0}"></div>
+            </div>
+        </div>
+        <footer>
+            <div id="cookie-banner" class="cookie-banner">
+                <p>
+                    Este sitio utiliza cookies para mejorar la experiencia del usuario.
+                    Al continuar navegando, aceptas nuestra
+                    <a href="/politica-cookies">Política de Cookies</a>.
+                </p>
+                <button id="accept-cookies" class="btn">Aceptar</button>
+            </div>
+            <div class="row">
+                <div class="one-third column">
+                    <p>&copy; 2024 Amiguteka</p>
+                </div>
+                <div class="one-third column">
+                    <a href="/aviso-legal">AVISO LEGAL</a>
+                </div>
+                <div class="one-third column">
+                    <a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+                    <a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+                </div>
+            </div>
+
+        </footer>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const cookieBanner = document.getElementById("cookie-banner");
+                const acceptCookiesButton = document.getElementById("accept-cookies");
+
+                // Mostrar el banner si el usuario no ha aceptado las cookies
+                if (!localStorage.getItem("cookiesAccepted")) {
+                    cookieBanner.style.display = "block";
+                }
+
+                // Manejar la aceptación de cookies
+                acceptCookiesButton.addEventListener("click", function() {
+                    localStorage.setItem("cookiesAccepted", "true");
+                    cookieBanner.style.display = "none";
+                });
+            });
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<title>Lista de Favoritos</title>
+	<link rel="stylesheet" href="/css/estilos.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+</head>
+<body>
+<header class="header">
+	<a href="/api/amigurumi/list">
+		<img src="/images/logo.png" alt="Logo Amiguteka">
+	</a>
+	<nav>
+		<a href="/api/amigurumi/list">Inicio</a>
+		<a href="/api/usuario/modifica">Perfil</a>
+		<a href="/api/login/logout">Cerrar sesión</a>
+	</nav>
+</header>
+
+<div class="container" >
+
+
+	<!-- Mensaje de confirmación -->
+	<div th:if="${message}">
+		<p th:text="${message}" style="color: green;"></p>
+	</div>
+	<nav class="nav-bar">
+		<button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+		<button onclick="window.location.href='/api/favorito/list'">Favoritos</button>
+		<button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+	</nav>
+	<section id="infoUsuario" class="seccion-activa">
+	<h1>Lista de Favoritos</h1>
+	<br>
+	<!-- Lista de Favoritos -->
+	<ul style="list-style-type: none; padding: 0;">
+		<li th:each="favorito : ${favoritoList}">
+			<div class="row">
+				<div class="one-third column">
+					<p><strong>Título:</strong>	<span th:text="${favorito.nombrePatron}"></span></p>
+				</div>
+				<div class="one-third column">
+					<p><strong>Autor:</strong>	<span th:text="${favorito.nombreAutor}"></span></p>
+				</div>
+				<!-- Botón Ver Favorito -->
+				<div class="one-third column">
+					<strong>Estado:</strong>	<span th:text="${favorito.estado}"></span>
+					<button class="button-primary" th:onclick="window.location.href='/api/favorito/modifica/' + [[${favorito.id}]]"><i class="fa fa-pencil fa-lg"></i></button>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<footer>
+	<div class="row">
+		<div class="one-third column">
+			<p>&copy; 2024 Amiguteka</p>
+		</div>
+		<div class="one-third column">
+			<a href="/aviso-legal">AVISO LEGAL</a>
+		</div>
+		<div class="one-third column">
+			<a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+			<a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+		</div>
+	</div>
+</footer>
+</body>
+</html>

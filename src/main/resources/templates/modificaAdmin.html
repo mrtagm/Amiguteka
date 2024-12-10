@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+        <div class="container">
+
+            <h1>Lista de Usuarios</h1>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>mail</th>
+                    <th>Acciones borrado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarioList}">
+                    <td th:text="${usuario.id}"></td>
+                    <td th:text="${usuario.name}"></td>
+                    <td th:text="${usuario.email}"></td>
+                    <td><a th:href="@{/api/usuario/delete/{id}(id=${usuario.id})}"
+                           onclick="return confirm('?Estás seguro de que deseas eliminar este usuario?');">
+                        Borrar </a></td>
+                 </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

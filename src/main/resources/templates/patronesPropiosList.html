@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Patrones Propios</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amiguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+        <div class="container">
+            <!-- Navegación de Secciones -->
+            <nav class="nav-bar">
+                <button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+                <button onclick="window.location.href='/api/favorito/list'">Favoritos</button>
+                <button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+            </nav>
+            <section id="infoUsuario" class="seccion-activa">
+            <h1>Mis Patrones</h1>
+            <div class="row">
+                <form th:action="@{/api/amigurumi/crear}" method="get">
+                    <button type="submit" class="button-primary"><i class="fa fa-plus fa-lg"></i></button>
+                </form>
+            </div>
+            <ul style="list-style-type: none; padding: 0;">
+                <li th:each="patron : ${amigurumiList}">
+
+                    <div class="row">
+                        <!-- Nombre del patrón -->
+                        <div class="one-third column">
+                            <p><strong>Nombre: </strong><span th:text="${patron.name}"></span></p>
+                        </div>
+                        <div class="one-third column">
+                            <p><strong>Materiales: </strong><span th:text="${patron.materiales}"></span></p>
+                        </div>
+                        <!-- Botón Modificar -->
+                        <div class="one-third column">
+                            <div class="button-group">
+                                <button class="button-primary" th:onclick="window.location.href='/api/amigurumi/modifica/' + [[${patron.id}]]">
+                                    <i class="fa fa-pencil fa-lg"></i>
+                                </button>
+                                <button id="delete-button" class="button-primary delete-button" style="background-color: #d9534f !important" th:data-id="${patron.id}">
+                                    <i class="fa fa-trash fa-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <footer>
+            <div class="row">
+                <div class="one-third column">
+                    <p>&copy; 2024 Amiguteka</p>
+                </div>
+                <div class="one-third column">
+                    <a href="/aviso-legal">AVISO LEGAL</a>
+                </div>
+                <div class="one-third column">
+                    <a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+                    <a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+                </div>
+            </div>
+        </footer>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Selecciona todos los botones con la clase `delete-button`
+                const deleteButtons = document.querySelectorAll('.delete-button');
+
+                // Asigna un evento a cada botón
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const patronId = button.getAttribute('data-id');
+
+                        if (confirm('¿Estás seguro de que deseas eliminar este patrón?')) {
+                            // Redirige a la URL de eliminación con el ID del patrón
+                            window.location.href = '/api/amigurumi/delete/'+patronId;
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

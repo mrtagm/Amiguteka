@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Recuperar Password Amiguteka</title>
+ <!--   <link rel="stylesheet" href="/css/estilos.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <style>
+        /* Centrar todo el contenido con flexbox */
+        body {
+            background-color: #E6F2FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 100% del alto de la ventana */
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+            width: 200%; /* Asegura que el label ocupe todo el ancho */
+        }
+
+        .wide-input {
+            width: 200%; /* Ajusta el ancho según tu preferencia */
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-bottom: 50px;
+        }
+
+        input {
+            padding: 12px;
+            width: 100%; /* Asegura que los inputs ocupen todo el ancho del contenedor */
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .button-primary {
+            background-color: #6a1b9a !important;
+
+        }
+
+
+
+        .button-container .button {
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 48%; /* Ocupa el 48% del ancho disponible */
+        }
+
+        p {
+            color: red;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #6a1b9a;
+            margin-bottom: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Recuperar Contraseña</h1>
+
+        <form th:action="@{/api/login/recuperar}" th:object="${usuario}" method="post">
+            <div class="row">
+                <div class="six columns">
+                    <label for="mail">Escriba el email asociado a su cuenta en Amiguteka:</label>
+                    <input type="text" id="mail" class="wide-input" th:field="*{email}" required />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="six columns">
+                    <button type="submit" class="button-primary">Recuperar Contraseña</button>
+                </div>
+                <div class="six columns">
+                    <a href="/api/login">
+                        <button type="button" class="cancel-button">Volver al Login</button>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

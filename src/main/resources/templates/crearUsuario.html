@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Amiguteka</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <style>
+        body {
+            background-color: #d0e6f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            max-width: 400px;
+            padding: 20px;
+        }
+        h1 {
+            color: #6A1B9A;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        .form-box {
+            border: 1px solid #333;
+            padding: 20px;
+            background-color: #d0e6f7;
+        }
+        .form-box input[type="text"],
+        .form-box input[type="password"] {
+            width: 100%;
+            padding-right: 30px; /* Espacio para el icono */
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        .password-container input[type="password"] {
+            padding-right: 30px; /* Espacio para el icono */
+        }
+        .password-container .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+
+        .button-primary {
+            background-color: #73247B !important;
+            outline: none !important ;
+            box-shadow: none !important;
+            /*border: none;
+            width: 100%;
+            color: white;
+            padding: 10px;*/
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>REGISTRARSE</h1>
+        <div class="form-box">
+            <!-- Formulario Thymeleaf -->
+            <form th:action="@{/api/usuario/crear}" th:object="${usuario}" method="post" onsubmit="return validateForm()">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email" required>
+                <div class="error-message" id="emailError" style="color: red;  margin-bottom: 5px;"></div>
+                
+                <label for="name">Nombre de usuario</label>
+                <input type="text" id="name" name="name" placeholder="Nombre de usuario" required>
+                <div class="error-message" id="usernameError" style="color: red;  margin-bottom: 5px;"></div>
+
+                <label for="pass">Contraseña</label>
+                <div class="password-container">
+                    <input type="password" id="pass" name="pass" placeholder="Contraseña" required>
+                    <span class="toggle-password" onclick="togglePassword('pass')">🔒</span>
+                </div>
+                <div class="error-message" id="passwordError2" style="color: red; margin-bottom: 5px;"></div>
+
+
+                <label for="confirmPassword">Confirmar Contraseña</label>
+                <div class="password-container">
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmar Contraseña" required>
+                    <span class="toggle-password" onclick="togglePassword('confirmPassword')">🔒</span>
+                </div>
+                <div class="error-message" id="passwordError" style="color: red; margin-bottom: 5px;"></div>
+                <div class="button-container">
+                    <button type="submit" class="button-primary">Registrarse</button>
+                    <a href="/api/login">
+                        <button type="button" class="cancel-button">Volver atrás</button>
+                    </a>
+                </div>
+              <!--  <button type="submit" class="button-primary">Registrarse</button> -->
+            </form>
+
+            <div th:if="${message}">
+                <p th:text="${message}" style="color: red;"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        function validateForm() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("pass").value;
+            let confirmPassword = document.getElementById("confirmPassword").value;
+            let username =document.getElementById("name").value;
+            let emailError = document.getElementById("emailError");
+            let passwordError = document.getElementById("passwordError");
+            let passwordError2 = document.getElementById("passwordError2");
+            let usernameError = document.getElementById("usernameError");
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Expresión regular para validar email
+            let usernamePattern = /^[a-zA-Z0-9@.]+$/;
+            let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+            // Limpiar mensajes de error
+            emailError.textContent = "";
+            passwordError.textContent = "";
+            usernameError.textContent= "";
+            passwordError2.textContent="";
+
+            let valid = true; // Variable para rastrear si hay errores
+
+            // Validar email
+            if (!emailPattern.test(email)) {
+                emailError.textContent = "Por favor, introduce un email válido.";
+                valid = false; // Marcar como no válido
+            }
+            //Validar contraseña
+            if(!passwordPattern.test(password)){
+                passwordError2.textContent ="La contraseña no cumple los requisitos, debe haber al menos una mayúscula, una minúscula, un número y 6 carácteres.";
+            }
+
+            // Validar contraseñas
+            if (password !== confirmPassword) {
+                passwordError.textContent = "Las contraseñas no coinciden.";
+                valid = false; // Marcar como no válido
+            }
+
+            //Validar usernames
+            if(!usernamePattern.test(username)){
+                usernameError.textContent = "El nombre de usuario contiene carácteres no permitidos, se aceptan letras, números, . y @";
+                valid = false;
+            }
+
+            return valid; // Permitir el envío del formulario solo si es válido
+        }
+        function togglePassword(id) {
+            const passwordField = document.getElementById(id);
+            const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+            passwordField.setAttribute("type", type);
+            const icon = document.querySelector(`.toggle-password[onclick="togglePassword('${id}')"]`);
+            icon.textContent = type === "password" ? "🔒" : "🔓"; // Cambia el ícono
+        }
+    </script>
+</body>
+</html>

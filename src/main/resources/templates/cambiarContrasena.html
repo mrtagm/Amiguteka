@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <title>Cambiar Contraseña</title>
+<!--    <link rel="stylesheet" href="/css/estilos.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <style>
+        /* Centrar todo el contenido con flexbox */
+        body {
+            background-color: #E6F2FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* 100% del alto de la ventana */
+            margin: 0;
+
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            width: 100%; /* Asegura que el label ocupe todo el ancho */
+        }
+
+        input {
+            padding: 12px;
+            width: 100%; /* Asegura que los inputs ocupen todo el ancho del contenedor */
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-left: 105px;
+        }
+
+        label{
+            margin-left: 105px;
+        }
+
+
+
+
+        .button-primary {
+            background-color: #6a1b9a !important;
+
+
+        }
+
+        p {
+            color: red;
+            margin-top: 20px;
+        }
+
+        h2{
+            color:#6a1b9a ;
+            margin-bottom: 25px;
+        }
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 30px; /* Espacio adicional para los iconos */
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="u-textCenter">Cambiar Contraseña</h2>
+
+    <form th:action="@{/api/usuario/cambiar-contrasena}" method="post" th:object="${cambiarContrasenaDTO}" onsubmit="return validateForm()">
+        <div class="row">
+            <div class="six columns">
+                <label for="nuevaContrasena">Nueva Contraseña:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="nuevaContrasena" th:field="*{nuevaContrasena}" required />
+                    <span class="toggle-password" onclick="togglePassword('nuevaContrasena')">🔒</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="error-message" id="passwordError2" style="color: red; margin-bottom: 5px;"></div>
+
+        <div class="row">
+            <div class="six columns">
+                <label for="confirmacionContrasena">Confirmar Contraseña:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="confirmacionContrasena" style="margin-bottom: 30px" th:field="*{confirmacionContrasena}" required />
+                    <span class="toggle-password" onclick="togglePassword('confirmacionContrasena')">🔒</span>
+                </div>
+
+            </div>
+        </div>
+        <div class="error-message" id="passwordError" style="color: red; margin-bottom: 5px;"></div>
+        <div class="row">
+            <div class="six columns">
+                <button type="submit" class="button-primary">Cambiar Contraseña</button>
+            </div>
+            <div class="six columns">
+                <a href="/api/usuario/modifica">
+                    <button type="button" class="button cancel-button">Cancelar Cambio</button>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    <p th:text="${message}"></p>
+</div>
+
+<script>
+    function validateForm() {
+        let password = document.getElementById("nuevaContrasena").value;
+        let confirmPassword = document.getElementById("confirmacionContrasena").value;
+        let passwordError = document.getElementById("passwordError");
+        let passwordError2 = document.getElementById("passwordError2");
+        let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+        // Limpiar mensajes de error
+        passwordError.textContent = "";
+        passwordError2.textContent = "";
+
+        let valid = true; // Variable para rastrear si hay errores
+
+        // Validar contraseña
+        if (!passwordPattern.test(password)) {
+            passwordError2.textContent = "La contraseña no cumple los requisitos, debe haber al menos una mayúscula, una minúscula, un número y 6 carácteres.";
+            valid = false; // Marcar como no válido
+        }
+
+        // Validar contraseñas
+        if (password !== confirmPassword) {
+            passwordError.textContent = "Las contraseñas no coinciden.";
+            valid = false; // Marcar como no válido
+        }
+
+        return valid; // Permitir el envío del formulario solo si es válido
+    }
+
+    function togglePassword(id) {
+        const passwordField = document.getElementById(id);
+        const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+        passwordField.setAttribute("type", type);
+        const icon = document.querySelector(`.toggle-password[onclick="togglePassword('${id}')"]`);
+        icon.textContent = type === "password" ? "🔒" : "🔓"; // Cambia el ícono
+    }
+</script>
+</body>
+</html>

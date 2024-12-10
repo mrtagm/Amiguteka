@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Perfil Usuario</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+            <div class="container">
+                <!-- Navegación de Secciones -->
+                <nav class="nav-bar">
+                    <button onclick="mostrarSeccion('infoUsuario')">Información Usuario</button>
+                    <button onclick="window.location.href='/api/favorito/list'">Favoritos</button>
+                    <button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+                </nav>
+                <section id="infoUsuario" class="seccion-activa">
+
+                    <div th:if="${admin}">
+
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>mail</th>
+                                <th>pass</th>
+                                <th>Acciones borrado</th>
+                                <th>Acciones editar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="usuario : ${usuarioList}">
+                                <td th:text="${usuario.id}"></td>
+                                <td th:text="${usuario.name}"></td>
+                                <td th:text="${usuario.email}"></td>
+                                <td th:text="${usuario.pass}"></td>
+                                <td><a th:href="@{/api/usuario/delete/{id}(id=${usuario.id})}"
+                                       onclick="return confirm('?Est?s seguro de que deseas eliminar este usuario?');">
+                                    Borrar </a></td>
+                                <td><a th:href="@{/api/usuario/modifica/{id}(id=${usuario.id})}">Editar</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div th:if="${!admin}">
+                    <h1>Perfil Personal</h1>
+                    <br>
+                    <br>
+                    <form th:action="@{/api/usuario/modifica}" th:object="${usuario}" method="post">
+                        <input type="hidden" th:field="*{id}" />
+                        <!-- Campo oculto para el ID -->
+                        <div class="row">
+                            <div class="four columns">
+                                <label for="name">Nombre:</label>
+                                <input type="text" id="name" th:field="*{name}" required />
+                            </div>
+
+                            <div class="four columns">
+                                <label for="mail">Email:</label>
+                                <input type="text" id="mail" th:field="*{email}" disabled />
+                            </div>
+
+                            <div class="four columns">
+                                <label><strong>Cambiar Contraseña:</strong></label>
+                                <button type="button" class="button-primary" onclick="window.location.href='/api/usuario/cambiar-contrasena'"><i class="fa fa-pencil fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="four columns">
+                                <label><strong>Patrones Creados:</strong></label>
+                                <span id="patrones-creados" th:text="${numeroPatrones}">0</span>
+                            </div>
+
+                            <div class="four columns">
+                                <label><strong>Favoritos:</strong></label>
+                                <span id="patrones-guardados" th:text="${numeroFavoritos}">0</span>
+                            </div>
+
+                            <div class="four columns">
+                                <label><strong>Total Patrones:</strong></label>
+                                <span th:text="${numeroPatrones + numeroFavoritos}">0</span>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="six columns">
+                                <button type="submit" class="button-primary u-full-width">Guardar  <i class="fa fa-floppy-o fa-lg"></i></button>
+                            </div>
+                            <div class="six columns">
+                                <button type="button" class="button-danger u-full-width" style="background-color: #d9534f; color: white !important;"
+                                        th:onclick="if (confirm('¿Estás seguro de que deseas eliminar su cuenta de usuario?')) { window.location.href='/api/usuario/delete/' + [[${usuario.id}]];}"
+                                >Eliminar Cuenta  <i class="fa fa-trash-o fa-2x"></i> </button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </section>
+            </div>
+
+        <footer>
+            <div class="row">
+                <div class="one-third column">
+                    <p>&copy; 2024 Amiguteka</p>
+                </div>
+                <div class="one-third column">
+                    <a href="/aviso-legal">AVISO LEGAL</a>
+                </div>
+                <div class="one-third column">
+                    <a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+                    <a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            function confirmDelete(userId) {
+                if (confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.")) {
+                    window.location.href = `/api/usuario/delete/${userId}`;
+                }
+            }
+
+
+        </script>
+    </body>
+</html>

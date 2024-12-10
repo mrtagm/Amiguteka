@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Ver/Editar Favorito</title>
+		<link rel="stylesheet" href="/css/estilos.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+		<style>
+			.description-text {
+				white-space: pre-line; /* Conserva los saltos de línea */
+				font-size: 16px; /* Ajusta el tamaño del texto según sea necesario */
+				line-height: 1.5; /* Mejora la legibilidad */
+				border: 1px solid #ccc; /* Opcional, para un efecto similar al textarea */
+				padding: 10px; /* Opcional, para añadir espacio interno */
+				background-color: #f9f9f9; /* Opcional, para resaltar el texto */
+				border-radius: 5px; /* Opcional, para esquinas redondeadas */
+			}
+		</style>
+	</head>
+
+
+	<body>
+		<header class="header">
+			<a href="/api/amigurumi/list">
+				<img src="/images/logo.png" alt="Logo">
+			</a>
+			<nav>
+				<a href="/api/amigurumi/list">Inicio</a>
+				<a href="/api/usuario/modifica">Perfil</a>
+				<a href="/api/login/logout">Cerrar sesión</a>
+			</nav>
+		</header>
+		<div class="container">
+			<nav class="nav-bar">
+				<div class="one-third column">
+					<button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+				</div>
+				<div class="one-third column">
+					<button onclick="window.location.href='/api/favorito/list'">Favoritos</button>
+				</div>
+				<div class="one-third column">
+					<button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+				</div>
+			</nav>
+			<h1 th:text="${favorito.nombrePatron}">Nombre del Patrón</h1>
+			<br>
+			<form th:action="@{/api/favorito/modifica}" th:object="${favorito}" method="post">
+				<!-- Campo oculto para ID del favorito -->
+				<input type="hidden" th:field="*{id}" />
+				<input type="hidden" th:field="*{amigurumiId}" />
+				<input type="hidden" th:field="*{usuarioId}" />
+
+				<div class="row">
+					<div class="one-third column" style="display: flex; align-items: center; justify-content: flex-start;">
+						<label for="estado"  style="width: 80px; font-size: 18px">Estado:</label>
+						<select id="estado" th:field="*{estado}" required style="width: 150px;">
+							<option value="Pendiente" th:selected="${favorito.estado == 'Pendiente'}">Pendiente</option>
+							<option value="En curso" th:selected="${favorito.estado == 'En curso'}">En curso</option>
+							<option value="Finalizado" th:selected="${favorito.estado == 'Finalizado'}">Finalizado</option>
+						</select>
+					</div>
+					<div class="one-third column" style="display: flex; justify-content: center;">
+						<a th:href="@{/api/favorito/descargar/{id}(id=${favorito.id})}" >Descargar PDF  <i class="fa fa-download fa-lg"></i></a>
+				<!--		<button type="button" id="descargarPDF" class="button-primary" th:onclick="window.location.href='@{/api/favorito/descargar/{id}(id=${favorito.id})}'">Descargar PDF</button>
+
+								th:onclick="@{if (confirm('¿Estás seguro de que deseas eliminar este favorito?')) { window.location.href='/api/favorito/delete/'+ ${favorito.id}+ '; }}"
+				-->
+					</div>
+
+					<div class="one-third column" style="display: flex; justify-content: right;">
+						<button type="submit" class="button-primary"><i class="fa fa-floppy-o fa-lg"></i></button>
+						<button type="button" class="button" id="eliminarFavorito"
+								style="background-color: #d9534f; color: white; padding:6px 12px !important; font-size: 12px !important; line-height: 0;"
+								th:onclick="if (confirm('¿Estás seguro de que deseas eliminar este favorito?')) { window.location.href='/api/favorito/delete/' + [[${favorito.id}]];}"
+						><i class="fa fa-trash fa-lg"></i></button>
+					</div>
+				</div>
+
+				<br>
+
+				<!-- Botón para descargar -->
+
+				<br><br>
+
+				<!-- Descripción del Amigurumi (solo lectura) -->
+				<div class="row" style="align-items: baseline;">
+					<div class="one-half column">
+						<h3>Descripción</h3>
+						<div class="description-text" th:text="${favorito.descripcion}"></div>
+					</div>
+
+					<!-- Campo de Anotaciones -->
+					<div class="one-half column" >
+						<h3 >Anotaciones</h3>
+						<textarea th:field="*{anotaciones}" class="textarea-field" style="height: 100%" placeholder="Escribe tus anotaciones aquí..."></textarea>
+					</div>
+				</div>
+
+			</form>
+		</div>
+
+		<footer>
+			<div class="row">
+				<div class="one-third column">
+					<p>&copy; 2024 Amiguteka</p>
+				</div>
+				<div class="one-third column">
+					<a href="/aviso-legal">AVISO LEGAL</a>
+				</div>
+				<div class="one-third column">
+					<a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+					<a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+				</div>
+			</div>
+		</footer>
+		<script>
+			document.getElementById("descargarPDF").addEventListener("click", function() {
+				// Obtén el ID del favorito (de Thymeleaf o del DOM)
+				const favoritoId = /*[[${favorito.id}]]*/ '';
+
+				// Realiza una solicitud al backend para descargar el PDF
+				fetch(`/api/favorito/descargar/${favoritoId}`, {
+					method: 'GET',
+					headers: {
+						'Accept': 'application/pdf' // Esperamos un archivo PDF de respuesta
+					}
+				})
+						.then(response => {
+							if (response.ok) {
+								// Si la respuesta es válida, creamos un enlace para descargar el archivo
+								return response.blob(); // Recibimos el archivo como un blob
+							}
+							throw new Error('No se pudo generar el PDF');
+						})
+						.then(blob => {
+							// Creamos un enlace temporal para descargar el PDF
+							const link = document.createElement('a');
+							link.href = URL.createObjectURL(blob);
+							link.download = 'patron_amigurumi.pdf'; // Nombre del archivo a descargar
+							link.click(); // Simula un clic para descargar
+						})
+						.catch(error => {
+							console.error('Error al descargar el PDF:', error);
+						});
+
+			});
+
+
+		</script>
+	</body>
+</html>
+
+
+

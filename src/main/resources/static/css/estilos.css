@@ -1,0 +1,404 @@
+
+body {
+    background-color: #E6F2FF;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.wrapper {
+    flex: 1;
+    padding-bottom: 50px; /* Asegura espacio para no sobreponerse con el footer */
+}
+
+
+h1{
+    text-align: center;
+    color: #6a1b9a;
+    margin-top: 18px;
+}
+
+.header {
+    background-color: #6a1b9a;
+    height: 90px; /* Altura ajustada */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    margin-bottom: 25px; /* Espacio entre la barra y el contenido */
+}
+
+.header img {
+    margin-top: 5px;
+    margin-left: 150px;
+    height: 78px;
+}
+
+.header nav {
+    display: flex;
+    align-items: center;
+    margin-right: 150px;
+    margin-left: 40px;
+    gap: 30px;
+}
+
+.header nav a {
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0 20px; /* Espacio horizontal entre enlaces */
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header nav a:hover {
+    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-bar {
+    display: flex; /* Flex para alinear los botones */
+    justify-content: space-between; /* Espacio entre botones */
+    margin: 20px 0; /* Margen superior e inferior */
+
+}
+
+
+.header nav a:hover {
+    text-decoration: underline;
+}
+.gallery-title {
+    text-align: center;
+    color: #6a1b9a;
+    margin-top: 20px;
+}
+
+.card {
+    text-align: center;
+    height: 300px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    justify-content: space-between;
+    width: 85% !important;
+
+}
+.card img {
+    width: 100%;
+    height: 250px; /* Altura fija para imágenes */
+    object-fit: cover;
+}
+.card h2 {
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+.card p {
+    color: #555;
+    font-size: 0.9em;
+}
+
+footer {
+    background-color: #6a1b9a;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    height: 50px;
+    width: 100%;
+}
+
+footer a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.button-primary{
+    border-color: #6a1b9a !important;
+    background-color: #6a1b9a !important;
+    padding: 6px 12px !important; /* Reduce el padding para hacer el botón más pequeño */
+    font-size: 12px !important; /* Ajusta el tamaño de la fuente */
+    font-weight: bold;
+    height: auto; /* Asegúrate de que la altura se ajuste al contenido */
+    line-height: 1.5;
+
+}
+.main-content {
+    display: flex;
+    margin-top: 20px;
+}
+.left-column, .right-column {
+    width: 50%;
+    padding: 10px;
+}
+.right-column p {
+    font-size: 18px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.amigurumi-img {
+    width: 80%;
+    height: auto;
+    background-color: #ccc;
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #555;
+}
+
+.input-full {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.materials, .description {
+    margin-top: 20px;
+}
+.textarea-field {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+}
+.save-button {
+    background-color: #6a1b9a;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.save-button:hover {
+    background-color: #8e24aa;
+}
+.back-button {
+    margin-top: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.one-third {
+    flex: 1;
+    padding: 10px;
+}
+
+select {
+    width: 100%; /* Para que ocupe todo el espacio disponible */
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.container {
+    min-height: calc(100vh - 140px); /* 100vh menos el espacio del header y footer */
+    padding-bottom: 60px; /* Añade espacio de padding para evitar que el contenido llegue al borde del footer */
+    margin-bottom: 60px;
+
+}
+
+.containera {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+    display: flex;
+    margin-top: 20px;
+}
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #6a1b9a;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: none; /* Oculto por defecto */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.cookie-banner a {
+    margin: 0;
+    color: #0078d4;
+    text-decoration: underline;
+}
+
+.cookie-banner .btn {
+    margin-left: 10px;
+    background-color: #0078d4;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    display: inline-block;
+}
+
+.cookie-banner .btn:hover {
+    background-color: #005fa3;
+}
+
+@media (max-width: 768px) {
+    /* Header */
+    .header {
+        height: auto;
+        flex-direction: column;
+        text-align: center;
+        padding: 10px;
+    }
+
+    .header img {
+        margin: 0 auto;
+        height: 60px;
+    }
+
+    .header nav {
+        margin: 0;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .header nav a {
+        padding: 5px 10px;
+        font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+        padding: 20px 0; /* Espaciado en móviles */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background-color: #6a1b9a;
+        width:100%;
+    }
+
+    footer .row {
+        padding-top: 1px;
+        width: 100%; /* Eliminar márgenes adicionales */
+    }
+
+    footer .one-third {
+        width: 100%; /* Asegura que cada columna ocupe todo el ancho */
+        padding: 2px 0; /* Añadir más espaciado vertical si es necesario */
+        background-color: #6a1b9a;
+    }
+
+    .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .one-third {
+        padding: 5px;
+        text-align: center;
+    }
+
+    footer a {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Galería de tarjetas */
+    .card {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .card img {
+        height: auto;
+    }
+
+    /* Contenedores principales */
+    .main-content {
+        flex-direction: column;
+    }
+
+    .left-column, .right-column {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .amigurumi-img {
+        width: 100%;
+    }
+
+    /* Cookie Banner */
+    .cookie-banner {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .cookie-banner .btn {
+        padding: 8px 15px;
+        font-size: 12px;
+    }
+
+    /* Botones y formularios */
+    .save-button, .back-button, .button-primary {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .input-full, .textarea-field, select {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .nav-bar {
+        display: flex;
+        flex-direction: column;   /* Apila los botones verticalmente */
+        align-items: center;      /* Centra los botones */
+        width: 100%;              /* Asegura que ocupe todo el ancho disponible */
+        padding: 10px 0;          /* Espaciado arriba y abajo */
+    }
+
+    .nav-bar button {
+        width: 80%;               /* Los botones ocupan el 80% del ancho disponible */
+        margin: 5px 0;            /* Espaciado entre los botones */
+        padding: 12px 0;          /* Ajusta el padding para botones más grandes */
+        font-size: 16px;          /* Aumenta el tamaño de la fuente */
+        text-align: center;       /* Centra el texto horizontalmente */
+        line-height: 1.5;         /* Asegura que el texto no se corte verticalmente */
+        height: auto;             /* Permite que la altura del botón se ajuste automáticamente al contenido */
+    }
+}

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+		<title>Ver Amigurumi</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- <link rel="stylesheet" href="/css/estilos.css"> -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+		<style>
+			body {
+				background-color: #e0f0ff;
+			}
+			.container {
+				width: 80%;
+				margin: 20px auto;
+				padding: 20px;
+				background-color: white;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			}
+			.header {
+				background-color: #6a1b9a;
+				height: 90px; /* Altura ajustada */
+				color: white;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				position: sticky;
+				top: 0;
+				z-index: 1000;
+				width: 100%;
+				margin-bottom: 25px; /* Espacio entre la barra y el contenido */
+			}
+
+			.header img {
+				margin-top: 5px;
+				margin-left: 150px;
+				height: 78px; /* Tamaño de logo ajustado */
+			}
+
+			.header nav {
+				display: flex;
+				align-items: center;
+				margin-right: 150px;
+				margin-left: 40px;
+				gap: 30px;
+			}
+
+			.header nav a {
+				color: white;
+				font-size: 16px;
+				font-weight: 500;
+				text-decoration: none;
+				padding: 0 20px; /* Espacio horizontal entre enlaces */
+				height: 100%;
+				display: flex;
+				align-items: center;
+			}
+
+			.header nav a:hover {
+				text-decoration: underline;
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			.header h1 {
+				margin: 0;
+			}
+			.main-content {
+				display: flex;
+				margin-top: 10px;
+			}
+			.left-column, .right-column {
+				width: 50%;
+				padding: 10px;
+			}
+			.left-column {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			.amigurumi-img {
+				width: 80%;
+				height: auto;
+				background-color: #ccc;
+				text-align: center;
+				padding: 20px;
+				font-size: 18px;
+				color: #555;
+			}
+			.materials, .description {
+				margin-top: 20px;
+			}
+
+			.textarea-field {
+				width: 100%;
+				height: 200px;
+				padding: 10px;
+				font-size: 16px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+				resize: vertical;
+			}
+			.description-text {
+				white-space: pre-line; /* Conserva los saltos de línea */
+				font-size: 16px; /* Ajusta el tamaño del texto según sea necesario */
+				line-height: 1.5; /* Mejora la legibilidad */
+				border: 1px solid #ccc; /* Opcional, para un efecto similar al textarea */
+				padding: 10px; /* Opcional, para añadir espacio interno */
+				background-color: #f9f9f9; /* Opcional, para resaltar el texto */
+				border-radius: 5px; /* Opcional, para esquinas redondeadas */
+			}
+			.button-primary {
+				background-color: #6a1b9a !important;
+				float: right;
+
+			}
+			.amigurumi-img {
+				max-width: 100%; /* Asegura que no supere el ancho del contenedor */
+				max-height: 400px; /* Limita la altura máxima */
+				object-fit: cover; /* Ajusta la imagen para que se vea bien dentro del cuadro */
+				border-radius: 10px; /* Opcional, para esquinas redondeadas */
+				box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Opcional, para un efecto estético */
+			}
+
+			footer {
+				background-color: #6a1b9a;
+				color: white;
+				padding: 15px 0;
+				text-align: center;
+				height: 50px;
+				width: 100%;
+			}
+
+			footer a {
+				color: white;
+				text-decoration: none;
+				margin: 0 10px;
+			}
+
+			footer a:hover {
+				text-decoration: underline;
+			}
+			.favorito-btn {
+				background: none;
+				border: none;
+				cursor: pointer;
+				font-size: 24px;
+				color: #d9534f; /* Color por defecto */
+				display: flex;
+				align-items: center;
+			}
+
+			.favorito-btn .fa {
+				transition: color 0.2s ease;
+			}
+
+			.favorito-btn .fa-heart {
+				color: #ff0000; /* Corazón lleno (favorito) */
+			}
+
+			.favorito-btn .fa-heart-o {
+				color: #d9534f; /* Corazón vacío (no favorito) */
+			}
+
+			@media (max-width: 768px) {
+				/* Header */
+				.header {
+					height: auto;
+					flex-direction: column;
+					text-align: center;
+					padding: 10px;
+				}
+
+				.header img {
+					margin: 0 auto;
+					height: 60px;
+				}
+
+				.header nav {
+					margin: 0;
+					gap: 15px;
+					flex-wrap: wrap;
+				}
+
+				.header nav a {
+					padding: 5px 10px;
+					font-size: 14px;
+				}
+
+				/* Footer */
+				footer {
+					padding: 20px 0; /* Espaciado en móviles */
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+					background-color: #6a1b9a;
+					width:100%;
+				}
+
+				footer .row {
+					padding-top: 1px;
+					width: 100%; /* Eliminar márgenes adicionales */
+				}
+
+				footer .one-third {
+					width: 100%; /* Asegura que cada columna ocupe todo el ancho */
+					padding: 2px 0; /* Añadir más espaciado vertical si es necesario */
+					background-color: #6a1b9a;
+				}
+
+				.row {
+					flex-direction: column;
+					align-items: center;
+				}
+
+				.one-third {
+					padding: 5px;
+					text-align: center;
+				}
+
+				footer a {
+					display: block;
+					margin-bottom: 5px;
+				}
+
+				/* Galería de tarjetas */
+				.card {
+					width: 100%;
+					margin: 10px 0;
+				}
+
+				.card img {
+					height: auto;
+				}
+
+				/* Contenedores principales */
+				.main-content {
+					flex-direction: column;
+				}
+
+				.left-column, .right-column {
+					width: 100%;
+					padding: 5px;
+				}
+
+				.amigurumi-img {
+					width: 100%;
+				}
+
+
+
+				.cookie-banner .btn {
+					padding: 8px 15px;
+					font-size: 12px;
+				}
+
+
+				.nav-bar {
+					display: flex;
+					flex-direction: column;   /* Apila los botones verticalmente */
+					align-items: center;      /* Centra los botones */
+					width: 100%;              /* Asegura que ocupe todo el ancho disponible */
+					padding: 10px 0;          /* Espaciado arriba y abajo */
+				}
+
+				.nav-bar button {
+					width: 80%;               /* Los botones ocupan el 80% del ancho disponible */
+					margin: 5px 0;            /* Espaciado entre los botones */
+					padding: 12px;            /* Ajusta el padding para botones más grandes */
+					font-size: 16px;          /* Aumenta el tamaño de la fuente */
+				}
+
+				.input-full, .textarea-field, select {
+					font-size: 14px;
+					padding: 8px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+	<header class="header">
+		<a href="/api/amigurumi/list">
+			<img src="/images/logo.png" alt="Logo Amiguteka">
+		</a>
+		<nav>
+			<a href="/api/amigurumi/list">Inicio</a>
+			<a href="/api/usuario/modifica">Perfil</a>
+			<a href="/api/login/logout">Cerrar sesión</a>
+		</nav>
+	</header>
+	<div class="container">
+		<div class="headera">
+			<h1 th:text="${amigurumi.name}" style="text-align: center">Nombre del Amigurumi</h1>
+
+		</div>
+		<div class="main-content">
+			<div class="left-column">
+				<img th:src="'data:image/png;base64,' + ${amigurumi.imagenPortada64}" alt="Imagen Patron" class="amigurumi-img">
+			</div>
+			<div class="right-column">
+				<p><strong>Autor:</strong> <span th:text="${amigurumi.autorNombre}">Nombre del Autor</span></p>
+				<p><strong>Enlace:</strong> <a th:href="${amigurumi.enlace}" target="_blank" th:text="${amigurumi.enlace}"></a></p>
+				<div class="materials">
+					<h5>Materiales</h5>
+					<textarea th:field="${amigurumi.materiales}" class="textarea-field" placeholder="" readonly>Lana de colores rojo, verde y azul...</textarea>
+				</div>
+
+				<div th:if="${admin==false}">
+					<!-- Botón de favorito (corazón) -->
+					<div th:if="${favorito == null}">
+						<form th:action="@{/api/favorito/crear}" method="post" th:object="${amigurumi}" >
+							<input type="hidden" th:field="*{id}" />
+							<button type="submit" class="favorito-btn">
+								<i  class="fa fa-heart-o fa-2x" aria-hidden="true"></i>
+							</button>
+						</form>
+					</div>
+					<div th:if="${favorito != null}">
+						<form th:action="@{/api/favorito/delete}" method="post" th:object="${favorito}" >
+							<input type="hidden" th:field="*{id}" />
+							<button type="submit" class="favorito-btn">
+								<i  class="fa fa-heart fa-2x"></i>
+							</button>
+						</form>
+					</div>
+					<span id="favorito-contador" style="margin-left:16px" th:text="${contadorFavoritos}">0</span> Favoritos
+				</div>
+				<div th:if="${admin}">
+					<form th:action="@{/api/amigurumi/delete/{id}(id=${amigurumi.id})}" method="get" th:object="${amigurumi}">
+						<input type="hidden" id="id" th:field="*{id}" />
+						<button type="submit" class="button-primary">Borrar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="description">
+			<h5>Descripción</h5>
+			<div class="description-text" th:text="${amigurumi.descripcion}"></div>
+		</div>
+		<div th:if="${favorito != null}">
+			<h5>Mis Anotaciones</h5>
+			<p th:text="${favorito.anotaciones}"></p>
+		</div>
+
+	</div>
+	<footer>
+		<div class="row">
+			<div class="one-third column">
+				<p>&copy; 2024 Amiguteka</p>
+			</div>
+			<div class="one-third column">
+				<a href="/aviso-legal">AVISO LEGAL</a>
+			</div>
+			<div class="one-third column">
+				<a href="/politica-cookies">POLÍTICA DE COOKIES</a> |
+				<a href="/politica-privacidad">POLÍTICA DE PRIVACIDAD</a>
+			</div>
+		</div>
+	</footer>
+	</body>
+</html>
