@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-<title>Lista de Usuarios</title>
-</head>
-<body>
-	<h1>Lista de Usuarios</h1>
-	<div th:if="${message}">
-		<p th:text="${message}" style="color: green;"></p>
-	</div>
-	<table>
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Nombre</th>
-				<th>mail</th>
-				<th>pass</th>
-				<th>Acciones borrado</th>
-				<th>Acciones editar</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="usuario : ${usuarioList}">
-				<td th:text="${usuario.id}"></td>
-				<td th:text="${usuario.name}"></td>
-				<td th:text="${usuario.email}"></td>
-				<td th:text="${usuario.pass}"></td>
-				<td><a th:href="@{/api/usuario/delete/{id}(id=${usuario.id})}"
-					onclick="return confirm('?Est?s seguro de que deseas eliminar este usuario?');">
-						Borrar </a></td>
-				<td><a th:href="@{/api/usuario/modifica/{id}(id=${usuario.id})}">Editar</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</body>
+	<head>
+		<link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+	<title>Lista de Usuarios</title>
+	</head>
+	<body>
+		<h1>Lista de Usuarios</h1>
+		<div th:if="${message}">
+			<p th:text="${message}" style="color: green;"></p>
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Nombre</th>
+					<th>mail</th>
+					<th>pass</th>
+					<th>Acciones borrado</th>
+					<th>Acciones editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="usuario : ${usuarioList}">
+					<td th:text="${usuario.id}"></td>
+					<td th:text="${usuario.name}"></td>
+					<td th:text="${usuario.email}"></td>
+					<td th:text="${usuario.pass}"></td>
+					<td><a th:href="@{/api/usuario/delete/{id}(id=${usuario.id})}"
+						onclick="return confirm('?Est?s seguro de que deseas eliminar este usuario?');">
+							Borrar </a></td>
+					<td><a th:href="@{/api/usuario/modifica/{id}(id=${usuario.id})}">Editar</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
 </html>

@@ -19,7 +19,7 @@ public class FirebaseConfig {
 			// Carga el archivo JSON desde el classpath
 			InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("patron.json");
 			if (serviceAccount == null) {
-				throw new IllegalArgumentException("No se encontró el archivo amigurumi.json en resources");
+				throw new IllegalArgumentException("No se encontró el archivo patron.json en resources");
 			}
 
 			// Inicializa Firebase

@@ -1,53 +1,53 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/estilos.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-</head>
-<body>
-<header class="header">
-    <a href="/api/amigurumi/list">
-        <img src="/images/logo.png" alt="Logo Amguteka">
-    </a>
-    <nav>
-        <a href="/api/amigurumi/list">Inicio</a>
-        <a href="/api/usuario/modifica">Perfil</a>
-        <a href="/api/login/logout">Cerrar sesión</a>
-    </nav>
-</header>
-<div class="container">
-    <nav class="nav-bar">
-        <div class="one-third column">
-            <button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+    <head>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="/css/estilos.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    </head>
+    <body>
+        <header class="header">
+            <a href="/api/amigurumi/list">
+                <img src="/images/logo.png" alt="Logo Amguteka">
+            </a>
+            <nav>
+                <a href="/api/amigurumi/list">Inicio</a>
+                <a href="/api/usuario/modifica">Perfil</a>
+                <a href="/api/login/logout">Cerrar sesión</a>
+            </nav>
+        </header>
+        <div class="container">
+            <nav class="nav-bar">
+                <div class="one-third column">
+                    <button onclick="window.location.href='/api/usuario/modifica'">Información Usuario</button>
+                </div>
+                <div class="one-third column">
+                    <button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
+                </div>
+            </nav>
+            <h1>Lista de Patrones</h1>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Autor</th>
+                    <th>Acciones borrado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="patron : ${allAmigurumiList}">
+                    <td th:text="${patron.id}"></td>
+                    <td th:text="${patron.name}"></td>
+                    <td th:text="${patron.autorNombre}"></td>
+                    <td><a th:href="@{/api/amigurumi/delete/{id}(id=${patron.id})}"
+                           onclick="return confirm('?Estás seguro de que deseas eliminar este patron?');">
+                        Borrar </a></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="one-third column">
-            <button onclick="window.location.href='/api/usuario/patrones-propios'">Patrones</button>
-        </div>
-    </nav>
-    <h1>Lista de Patrones</h1>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Autor</th>
-            <th>Acciones borrado</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="patron : ${allAmigurumiList}">
-            <td th:text="${patron.id}"></td>
-            <td th:text="${patron.name}"></td>
-            <td th:text="${patron.autorNombre}"></td>
-            <td><a th:href="@{/api/amigurumi/delete/{id}(id=${patron.id})}"
-                   onclick="return confirm('?Estás seguro de que deseas eliminar este patron?');">
-                Borrar </a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</body>
+    </body>
 </html>
